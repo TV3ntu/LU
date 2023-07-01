@@ -1,12 +1,23 @@
 import numpy as np
 import math
 
+
 def check_determinant_non_zero(matrix):
+    """
+    Verifica que el determinante de una matriz sea distinto de cero.
+    :param matrix:
+    :return:
+    """
     determinant = np.linalg.det(matrix)
     return determinant != 0
 
 
 def read_matrix_row_by_column(n):
+    """
+    Lee una matriz de nxn por filas y columnas.
+    :param n:
+    :return:
+    """
     matrix = []
     for i in range(n):
         row = []
@@ -18,6 +29,11 @@ def read_matrix_row_by_column(n):
 
 
 def decompose_LU(matrix):
+    """
+    Descompone una matriz cuadrada en una matriz triangular inferior y una matriz triangular superior.
+    :param matrix:
+    :return:
+    """
     n = matrix.shape[0]
     L = np.zeros((n, n))
     U = np.zeros((n, n))
@@ -33,6 +49,12 @@ def decompose_LU(matrix):
 
 
 def solve_LU(matrix, vector):
+    """
+    Resuelve un sistema de ecuaciones lineales de la forma Ax = vector, donde A es una matriz cuadrada.
+    :param matrix:
+    :param vector:
+    :return:
+    """
     L, U = decompose_LU(matrix)
     y = forward_substitution(L, vector)
     x = backward_substitution(U, y)
@@ -40,6 +62,12 @@ def solve_LU(matrix, vector):
 
 
 def forward_substitution(L, vector):
+    """
+    Resuelve un sistema de ecuaciones lineales de la forma Ly = vector, donde L es una matriz triangular inferior.
+    :param L:
+    :param vector:
+    :return:
+    """
     n = L.shape[0]
     y = np.zeros(n)
     for i in range(n):
@@ -48,6 +76,12 @@ def forward_substitution(L, vector):
 
 
 def backward_substitution(U, vector):
+    """
+    Resuelve un sistema de ecuaciones lineales de la forma Ux = vector, donde U es una matriz triangular superior.
+    :param U:
+    :param vector:
+    :return:
+    """
     n = U.shape[0]
     x = np.zeros(n)
     for i in range(n - 1, -1, -1):
@@ -59,6 +93,11 @@ def backward_substitution(U, vector):
 
 
 def count_elementary_operations(n):
+    """
+    Calcula la cantidad de operaciones elementales necesarias para resolver un sistema de ecuaciones de nxn.
+    :param n:
+    :return:
+    """
     forward_sub_count = math.ceil((n ** 2) / 2)
     backward_sub_count = math.ceil(n * (n + 1) / 2)
     total_operations = forward_sub_count + backward_sub_count
@@ -66,6 +105,11 @@ def count_elementary_operations(n):
 
 
 def generate_nonzero_determinant_matrix(n):
+    """
+    Genera una matriz cuadrada de nxn con determinante distinto de cero.
+    :param n:
+    :return:
+    """
     matrix = np.random.rand(n, n)
     while np.linalg.det(matrix) == 0:
         matrix = np.random.rand(n, n)
@@ -93,7 +137,7 @@ def main():
         elif option == 2:
             A = generate_nonzero_determinant_matrix(n)
             print(f"La matriz A generada es:\n{A}")
-        else :
+        else:
             print("Opción inválida.")
     b = np.array(input("Ingrese el vector b separado por espacios: ").split(), dtype=int)
 
